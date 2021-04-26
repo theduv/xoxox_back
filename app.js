@@ -91,7 +91,7 @@ const checkIfSomethingWon = (grid, gameState) => {
     }
   }
   console.log(`line 93: ${res}`)
-  return res
+  return false
 }
 
 const onPlayerJoinRoom = (data, socket) => {
