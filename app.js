@@ -184,7 +184,7 @@ io.on('connection', (socket) => {
   socket.on('changeName', (data) => {
     const room = rooms[data.room]
 
-    const indexTarget = room.player.findIndex((player) => {
+    const indexTarget = room.players.findIndex((player) => {
       return player.id === data.playerId
     })
     room.players[indexTarget].name = data.newName
