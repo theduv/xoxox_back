@@ -209,7 +209,7 @@ io.on('connection', (socket) => {
     if (!client) return
     const room = client.room
 
-    room[chat].push({
+    room.chat.push({
       username: '',
       content: 'someone left the room',
       className: 'globalMessage',
