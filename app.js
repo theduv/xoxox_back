@@ -118,7 +118,7 @@ const onPlayerJoinRoom = (data, socket) => {
       playable: getArrayPlayable(1, 1),
       chat: [],
     }
-  else rooms[data.name].numPlayers++
+  else rooms[data.room].numPlayers++
 
   room = rooms[data.room]
   room.players.push(data.player)
