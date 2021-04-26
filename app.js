@@ -209,14 +209,14 @@ io.on('connection', (socket) => {
     if (!client) return
     const room = rooms[client.room]
 
-    room.chat.push({
+    rooms[room.name].chat.push({
       username: '',
       content: 'someone left the room',
       className: 'globalMessage',
     })
-    io.to(room).emit('chatUpdate', room.chat)
-    room.numPlayers--
-    io.to(room).emit('numPlayers', rooms[room].numPlayers)
+    io.to(room.name).emit('chatUpdate', rooms[room.name].chat)
+    rooms[room.name].numPlayers--
+    io.to(room.name).emit('numPlayers', rooms[room.name].numPlayers)
   })
 })
 
