@@ -184,6 +184,8 @@ io.on('connection', (socket) => {
   socket.on('changeName', (data) => {
     const room = rooms[data.room]
 
+    console.log(`${data}`)
+    console.log(room.players)
     const indexTarget = room.players.findIndex((player) => {
       return player.id === data.playerId
     })
