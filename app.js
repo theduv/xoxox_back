@@ -98,7 +98,6 @@ const onPlayerJoinRoom = (data, socket) => {
       round: 0,
       turn: 'O',
       numPlayers: 1,
-      spectators: [],
       players: [],
       gameState: [
         ['', '', ''],
@@ -122,9 +121,7 @@ const onPlayerJoinRoom = (data, socket) => {
   else rooms[data.room].numPlayers++
 
   room = rooms[data.room]
-  room.numPlayers > 2
-    ? room.spectators.push(data.username)
-    : room.players.push(data.username)
+  room.players.push(data.player)
   room.chat.push({
     username: '',
     content: `${data.username} has joined the room`,
