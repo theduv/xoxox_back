@@ -107,6 +107,7 @@ const onPlayerJoinRoom = (data, socket) => {
         ['', '', ''],
         ['', '', ''],
       ],
+      lastPlayed: [-1, -1],
       board: [
         ['', '', '', '', '', '', '', '', ''],
         ['', '', '', '', '', '', '', '', ''],
@@ -176,7 +177,11 @@ io.on('connection', (socket) => {
           content: `${globalWon} won the game !`,
           className: 'globalMessage',
         })
-        io.to(room.name).emit('currentBoard', rooms[data.room].board)
+        room.lastPlayed = [data.coords[0], data.coords[1]]
+        io.to(room.name).emit('currentBoard', {
+          board: rooms[data.room].board,
+          lastPlayed: room.lastPlayed,
+        })
         io.to(room.name).emit('chatUpdate', room.chat)
         io.to(room.name).emit('turnUpdate', '-')
         io.to(room.name).emit('playableUpdate', [])
