@@ -133,7 +133,10 @@ const onPlayerJoinRoom = (data, socket) => {
   })
   socket.join(room.name)
   io.to(room.name).emit('chatUpdate', room.chat)
-  io.to(room.name).emit('currentBoard', room.board)
+  io.to(room.name).emit('currentBoard', {
+    board: room.board,
+    lastPlayed: [-1, -1],
+  })
   io.to(room.name).emit('turnUpdate', room.turn)
   io.to(room.name).emit('numPlayers', room.numPlayers)
   io.to(room.name).emit('playableUpdate', room.playable)
@@ -164,6 +167,7 @@ io.on('connection', (socket) => {
     console.log('line 163: wonSquare')
     console.log(wonSquare)
 
+    room.lastPlayed = [data.coords[0], data.coords[1]]
     if (wonSquare) {
       console.log('line 167: wonSquare')
       console.log(wonSquare)
@@ -177,7 +181,6 @@ io.on('connection', (socket) => {
           content: `${globalWon} won the game !`,
           className: 'globalMessage',
         })
-        room.lastPlayed = [data.coords[0], data.coords[1]]
         io.to(room.name).emit('currentBoard', {
           board: rooms[data.room].board,
           lastPlayed: room.lastPlayed,
@@ -188,7 +191,10 @@ io.on('connection', (socket) => {
         return
       }
     }
-    io.to(room.name).emit('currentBoard', room.board)
+    io.to(room.name).emit('currentBoard', {
+      board: room.board,
+      lastPlayed: room.lastPlayed,
+    })
     io.to(room.name).emit('turnUpdate', room.turn)
     io.to(room.name).emit('playableUpdate', room.playable)
   })
