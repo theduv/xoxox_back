@@ -135,6 +135,7 @@ const onPlayerJoinRoom = (data, socket) => {
   io.to(room.name).emit('currentBoard', room.board)
   io.to(room.name).emit('turnUpdate', room.turn)
   io.to(room.name).emit('numPlayers', room.numPlayers)
+  io.to(room.name).emit('playableUpdate', room.playable)
   io.to(room.name).emit('currentPlayers', room.players)
   if (room.numPlayers === 1) {
     socket.emit('playerType', 'O')
