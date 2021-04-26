@@ -207,7 +207,7 @@ io.on('connection', (socket) => {
       return socket === client.socket
     })
     if (!client) return
-    const room = client.room
+    const room = rooms[client.room]
 
     room.chat.push({
       username: '',
