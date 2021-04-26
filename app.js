@@ -124,7 +124,7 @@ const onPlayerJoinRoom = (data, socket) => {
   room.players.push(data.player)
   room.chat.push({
     username: '',
-    content: `${data.username} has joined the room`,
+    content: `${data.player.name} has joined the room`,
     className: 'globalMessage',
   })
   socket.join(room.name)
