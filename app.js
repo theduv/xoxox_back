@@ -124,7 +124,7 @@ const onPlayerJoinRoom = (data, socket) => {
   room.players.push(data.player)
   room.chat.push({
     username: '',
-    content: `${data.player.name} has joined the room`,
+    content: `${data.username} joined the room`,
     className: 'globalMessage',
   })
   socket.join(room.name)
@@ -146,13 +146,11 @@ io.on('connection', (socket) => {
   socket.on('playerJoined', (data) => {
     if (data.username === undefined || data.username === 'Anonymous')
       socket.emit('anonymousPlayer')
-    console.log('player joined room ' + data.room)
     onPlayerJoinRoom(data, socket)
   })
   socket.on('clickBoard', (data) => {
     const room = rooms[data.room]
 
-    console.log(room)
     if (!room) return
     room.turn = room.turn === 'X' ? 'O' : 'X'
     room.round++
@@ -183,10 +181,10 @@ io.on('connection', (socket) => {
     io.to(room.name).emit('turnUpdate', room.turn)
     io.to(room.name).emit('playableUpdate', room.playable)
   })
+  socket.on('changeName', (data) => {})
   socket.on('sendMessage', (data) => {
     const room = rooms[data.room]
 
-    console.log(data)
     room.chat.push({
       username: data.user,
       content: data.content,
@@ -201,7 +199,12 @@ io.on('connection', (socket) => {
     if (!client) return
     const room = client.room
 
-    console.log('player left room ' + room)
+    room[chat].push({
+      username: '',
+      content: 'someone left the room',
+      className: 'globalMessage',
+    })
+    io.to(room).emit('chatUpdate', room.chat)
     rooms[room].numPlayers--
     io.to(room).emit('numPlayers', rooms[room].numPlayers)
   })
