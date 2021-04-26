@@ -181,7 +181,15 @@ io.on('connection', (socket) => {
     io.to(room.name).emit('turnUpdate', room.turn)
     io.to(room.name).emit('playableUpdate', room.playable)
   })
-  socket.on('changeName', (data) => {})
+  socket.on('changeName', (data) => {
+    const room = rooms[data.room]
+
+    const indexTarget = room.player.findIndex((player) => {
+      return player.id === data.playerId
+    })
+    room.players[indexTarget].name = data.newName
+    io.to(room.name).emit('currentPlayers', room.players)
+  })
   socket.on('sendMessage', (data) => {
     const room = rooms[data.room]
 
