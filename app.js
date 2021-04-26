@@ -34,6 +34,8 @@ const getArrayPlayable = (line, square) => {
       arraySquares.push([bLine * 3 + i, bSquare * 3 + j])
     }
   }
+  console.log('line 38: arraySquares')
+  console.log(arraySquares)
   return arraySquares
 }
 
@@ -83,11 +85,12 @@ const checkIfSomethingWon = (grid, gameState) => {
         gameState
       )
       if (res && gameState[i / 3][j / 3] === '') {
-        console.log(`i: ${i} | j: ${j}`)
+        console.log(`line 88: i: ${i} | j: ${j}`)
         return { won: res, square: [i, j] }
       }
     }
   }
+  console.log(`line 93: ${res}`)
   return res
 }
 
@@ -139,7 +142,7 @@ const onPlayerJoinRoom = (data, socket) => {
   } else if (room.numPlayers === 2) {
     socket.emit('playerType', 'X')
   } else socket.emit('playerType', '-')
-  clients.push({ socket, room: room.name })
+  clients.push({ socket, room: room.name, id: data.player.id })
 }
 
 io.on('connection', (socket) => {
@@ -157,9 +160,12 @@ io.on('connection', (socket) => {
     room.board[data.coords[0]][data.coords[1]] = data.player
     room.playable = getArrayPlayable(data.coords[0], data.coords[1])
     const wonSquare = checkIfSomethingWon(room.board, room.gameState)
+    console.log('line 163: wonSquare')
+    console.log(wonSquare)
 
     if (wonSquare) {
-      console.log('wonSquare', wonSquare)
+      console.log('line 167: wonSquare')
+      console.log(wonSquare)
       room.gameState[wonSquare.square[0] / 3][wonSquare.square[1] / 3] =
         wonSquare.won
       io.to(room.name).emit('gameStateUpdate', room.gameState)
