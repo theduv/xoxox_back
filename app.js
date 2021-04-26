@@ -118,13 +118,13 @@ const onPlayerJoinRoom = (data, socket) => {
       playable: getArrayPlayable(1, 1),
       chat: [],
     }
-  else rooms[data.room].numPlayers++
+  else rooms[data.name].numPlayers++
 
   room = rooms[data.room]
   room.players.push(data.player)
   room.chat.push({
     username: '',
-    content: `${data.username} joined the room`,
+    content: `${data.player.name} joined the room`,
     className: 'globalMessage',
   })
   socket.join(room.name)
