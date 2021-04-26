@@ -215,7 +215,7 @@ io.on('connection', (socket) => {
       className: 'globalMessage',
     })
     io.to(room).emit('chatUpdate', room.chat)
-    rooms[room].numPlayers--
+    room.numPlayers--
     io.to(room).emit('numPlayers', rooms[room].numPlayers)
   })
 })
