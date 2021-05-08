@@ -26,7 +26,6 @@ let clients = []
 let rooms = {}
 
 io.on('connection', (socket) => {
-  console.log('playerJoined')
   socket.on('playerJoined', (data) => {
     util.onPlayerJoinRoom(data, socket)
   })

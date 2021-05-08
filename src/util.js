@@ -197,7 +197,7 @@ const onSendMessage = (data) => {
   io.to(room.name).emit('chatUpdate', room.chat)
 }
 
-module.exports = [
+module.exports = {
   onChangeName,
   onSendMessage,
   onDisconnect,
@@ -206,4 +206,4 @@ module.exports = [
   getArrayPlayable,
   onPlayerJoinRoom,
   onClickBoard,
-]
+}
