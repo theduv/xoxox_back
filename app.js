@@ -31,7 +31,7 @@ io.on('connection', (socket) => {
   })
   socket.on('getRooms', (data) => {
     console.log('getRooms')
-    io.to(socket).emit('sendRooms', rooms)
+    socket.emit('sendRooms', rooms)
   })
   socket.on('clickBoard', (data) => {
     util.onClickBoard(rooms, data, io)
