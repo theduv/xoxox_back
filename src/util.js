@@ -186,7 +186,7 @@ const onDisconnect = (socket, rooms, clients, io) => {
   io.to(room.name).emit('numPlayers', rooms[room.name].numPlayers)
 }
 
-const onSendMessage = (data, io) => {
+const onSendMessage = (data, rooms, io) => {
   const room = rooms[data.room]
 
   room.chat.push({

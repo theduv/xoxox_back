@@ -36,7 +36,7 @@ io.on('connection', (socket) => {
     util.onChangeName(data, io)
   })
   socket.on('sendMessage', (data) => {
-    util.onSendMessage(data, io)
+    util.onSendMessage(data, rooms, io)
   })
   socket.on('disconnect', (socket) => {
     util.onDisconnect(socket, rooms, clients, io)
