@@ -30,8 +30,6 @@ io.on('connection', (socket) => {
     util.onPlayerJoinRoom(data, socket, rooms, clients, io)
   })
   socket.on('getRooms', (data) => {
-    console.log('getRooms')
-    console.log(rooms)
     socket.emit('sendRooms', rooms)
   })
   socket.on('clickBoard', (data) => {

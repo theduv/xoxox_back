@@ -54,6 +54,7 @@ const onPlayerJoinRoom = (data, socket, rooms, clients, io) => {
     board: room.board,
     lastPlayed: [-1, -1],
   })
+  console.log(room.board)
   io.to(room.name).emit('turnUpdate', room.turn)
   io.to(room.name).emit('numPlayers', room.numPlayers)
   io.to(room.name).emit('playableUpdate', room.playable)
@@ -184,6 +185,7 @@ const onDisconnect = (socket, rooms, clients, io) => {
   rooms[room.name].numPlayers--
   if (rooms[room.name] === 0) {
     delete rooms[room.name]
+    return
   }
 
   io.to(room.name).emit('chatUpdate', rooms[room.name].chat)
