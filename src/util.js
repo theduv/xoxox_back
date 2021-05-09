@@ -11,7 +11,7 @@ const getArrayPlayable = (line, square) => {
   return arraySquares
 }
 
-const onPlayerJoinRoom = (data, socket, rooms, io) => {
+const onPlayerJoinRoom = (data, socket, rooms, clients, io) => {
   if (rooms[data.room] === undefined)
     rooms[data.room] = {
       name: data.room,
@@ -169,7 +169,7 @@ const onChangeName = (data, io) => {
   io.to(room.name).emit('currentPlayers', room.players)
 }
 
-const onDisconnect = (socket, rooms, io) => {
+const onDisconnect = (socket, rooms, clients, io) => {
   const client = clients.find((client) => {
     return socket === client.socket
   })

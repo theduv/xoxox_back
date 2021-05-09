@@ -27,7 +27,7 @@ let rooms = {}
 
 io.on('connection', (socket) => {
   socket.on('playerJoined', (data) => {
-    util.onPlayerJoinRoom(data, socket, rooms, io)
+    util.onPlayerJoinRoom(data, socket, rooms, clients, io)
   })
   socket.on('clickBoard', (data) => {
     util.onClickBoard(rooms, data, io)
@@ -39,7 +39,7 @@ io.on('connection', (socket) => {
     util.onSendMessage(data, io)
   })
   socket.on('disconnect', (socket) => {
-    util.onDisconnect(socket, rooms, io)
+    util.onDisconnect(socket, rooms, clients, io)
   })
 })
 
