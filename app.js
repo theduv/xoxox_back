@@ -27,19 +27,19 @@ let rooms = {}
 
 io.on('connection', (socket) => {
   socket.on('playerJoined', (data) => {
-    util.onPlayerJoinRoom(data, socket, rooms)
+    util.onPlayerJoinRoom(data, socket, rooms, io)
   })
   socket.on('clickBoard', (data) => {
-    util.onClickBoard(rooms, data)
+    util.onClickBoard(rooms, data, io)
   })
   socket.on('changeName', (data) => {
-    util.onChangeName(data)
+    util.onChangeName(data, io)
   })
   socket.on('sendMessage', (data) => {
-    util.onSendMessage(data)
+    util.onSendMessage(data, io)
   })
   socket.on('disconnect', (socket) => {
-    util.onDisconnect(socket)
+    util.onDisconnect(socket, rooms, io)
   })
 })
 

@@ -11,7 +11,7 @@ const getArrayPlayable = (line, square) => {
   return arraySquares
 }
 
-const onPlayerJoinRoom = (data, socket, rooms) => {
+const onPlayerJoinRoom = (data, socket, rooms, io) => {
   if (rooms[data.room] === undefined)
     rooms[data.room] = {
       name: data.room,
@@ -119,7 +119,7 @@ const checkIfSomethingWon = (grid, gameState) => {
   return false
 }
 
-const onClickBoard = (rooms, data) => {
+const onClickBoard = (rooms, data, io) => {
   const room = rooms[data.room]
 
   if (!room) return
@@ -159,7 +159,7 @@ const onClickBoard = (rooms, data) => {
   io.to(room.name).emit('playableUpdate', room.playable)
 }
 
-const onChangeName = () => {
+const onChangeName = (data, io) => {
   const room = rooms[data.room]
 
   const indexTarget = room.players.findIndex((player) => {
@@ -169,7 +169,7 @@ const onChangeName = () => {
   io.to(room.name).emit('currentPlayers', room.players)
 }
 
-const onDisconnect = () => {
+const onDisconnect = (socket, rooms, io) => {
   const client = clients.find((client) => {
     return socket === client.socket
   })
@@ -186,7 +186,7 @@ const onDisconnect = () => {
   io.to(room.name).emit('numPlayers', rooms[room.name].numPlayers)
 }
 
-const onSendMessage = (data) => {
+const onSendMessage = (data, io) => {
   const room = rooms[data.room]
 
   room.chat.push({
