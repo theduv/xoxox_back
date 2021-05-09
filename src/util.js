@@ -159,7 +159,7 @@ const onClickBoard = (rooms, data, io) => {
   io.to(room.name).emit('playableUpdate', room.playable)
 }
 
-const onChangeName = (data, io) => {
+const onChangeName = (data, rooms, io) => {
   const room = rooms[data.room]
 
   const indexTarget = room.players.findIndex((player) => {

@@ -33,7 +33,7 @@ io.on('connection', (socket) => {
     util.onClickBoard(rooms, data, io)
   })
   socket.on('changeName', (data) => {
-    util.onChangeName(data, io)
+    util.onChangeName(data, rooms, io)
   })
   socket.on('sendMessage', (data) => {
     util.onSendMessage(data, rooms, io)
