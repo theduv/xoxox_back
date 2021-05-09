@@ -181,8 +181,12 @@ const onDisconnect = (socket, rooms, clients, io) => {
     content: 'someone left the room',
     className: 'globalMessage',
   })
-  io.to(room.name).emit('chatUpdate', rooms[room.name].chat)
   rooms[room.name].numPlayers--
+  if (rooms[room.name] === 0) {
+    delete rooms[room.name]
+  }
+
+  io.to(room.name).emit('chatUpdate', rooms[room.name].chat)
   io.to(room.name).emit('numPlayers', rooms[room.name].numPlayers)
 }
 
