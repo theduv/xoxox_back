@@ -11,7 +11,7 @@ const getArrayPlayable = (line, square) => {
   return arraySquares
 }
 
-const onPlayerJoinRoom = (data, socket) => {
+const onPlayerJoinRoom = (data, socket, rooms) => {
   if (rooms[data.room] === undefined)
     rooms[data.room] = {
       name: data.room,
