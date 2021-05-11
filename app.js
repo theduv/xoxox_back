@@ -2,7 +2,6 @@ const express = require('express')
 const https = require('https')
 const fs = require('fs')
 const cors = require('cors')
-const util = require('./src/util')
 const events = require('./src/events')
 
 const port = process.env.PORT || 4001
