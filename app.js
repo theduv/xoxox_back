@@ -3,6 +3,7 @@ const https = require('https')
 const fs = require('fs')
 const cors = require('cors')
 const util = require('./src/util')
+const events = require('./src/events')
 
 const port = process.env.PORT || 4001
 
@@ -27,22 +28,22 @@ let rooms = {}
 
 io.on('connection', (socket) => {
   socket.on('playerJoined', (data) => {
-    util.onPlayerJoinRoom(data, socket, rooms, clients, io)
+    events.onPlayerJoinRoom(data, socket, rooms, clients, io)
   })
   socket.on('getRooms', (data) => {
-    socket.emit('sendRooms', rooms)
+    events.emit('sendRooms', rooms)
   })
   socket.on('clickBoard', (data) => {
-    util.onClickBoard(rooms, data, io)
+    events.onClickBoard(rooms, data, io)
   })
   socket.on('changeName', (data) => {
-    util.onChangeName(data, rooms, io)
+    events.onChangeName(data, rooms, io)
   })
   socket.on('sendMessage', (data) => {
-    util.onSendMessage(data, rooms, io)
+    events.onSendMessage(data, rooms, io)
   })
   socket.on('disconnect', (socket) => {
-    util.onDisconnect(socket, rooms, clients, io)
+    events.onDisconnect(socket, rooms, clients, io)
   })
 })
 
