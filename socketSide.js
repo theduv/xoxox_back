@@ -24,11 +24,6 @@ const io = require('socket.io')(server, {
 let clients = []
 
 let rooms = {}
-
-app.get('/', (req, res) => {
-  res.json({ zebi: 'test' })
-})
-
 io.on('connection', (socket) => {
   socket.on('playerJoined', (data) => {
     events.onPlayerJoinRoom(data, socket, rooms, clients, io)
@@ -51,4 +46,3 @@ io.on('connection', (socket) => {
 })
 
 server.listen(port, () => console.log(`Listening on port ${port}`))
-app.listen(4002, () => console.log(`Listening on port 4002`))
