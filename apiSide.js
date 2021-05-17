@@ -8,6 +8,10 @@ const port = process.env.PORT || 4002
 const app = express()
 app.use(cors())
 
+app.get('/', (req, res) => {
+  res.json({ zebi: 'test' })
+})
+
 const server = https.createServer(
   {
     key: fs.readFileSync('./back.xoxox.dev/back.xoxox.dev.key'),
@@ -15,9 +19,5 @@ const server = https.createServer(
   },
   app
 )
-
-app.get('/', (req, res) => {
-  res.json({ zebi: 'test' })
-})
 
 server.listen(port, () => console.log(`Listening on port 4002`))
