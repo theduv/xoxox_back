@@ -25,11 +25,15 @@ let clients = []
 
 let rooms = {}
 
+app.get('/users/create', (req, res) => {
+  res.send('test')
+})
+
 io.on('connection', (socket) => {
   socket.on('playerJoined', (data) => {
     events.onPlayerJoinRoom(data, socket, rooms, clients, io)
   })
-  socket.on('getRooms', (data) => {
+  socket.on('getRooms', () => {
     events.emit('sendRooms', rooms)
   })
   socket.on('clickBoard', (data) => {
@@ -47,3 +51,4 @@ io.on('connection', (socket) => {
 })
 
 server.listen(port, () => console.log(`Listening on port ${port}`))
+app.listen(4002, () => console.log(`Listening on port 4002`))

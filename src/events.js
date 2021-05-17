@@ -25,7 +25,7 @@ const onPlayerJoinRoom = (data, socket, rooms, clients, io) => {
         ['', '', '', '', '', '', '', '', ''],
         ['', '', '', '', '', '', '', '', ''],
       ],
-      playable: getArrayPlayable(1, 1),
+      playable: util.getArrayPlayable(1, 1),
       chat: [],
     }
   else rooms[data.room].numPlayers++
