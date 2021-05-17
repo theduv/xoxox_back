@@ -1,10 +1,14 @@
 const express = require('express')
 const https = require('https')
+const cors = require('cors')
+
 const fs = require('fs')
 
 const port = process.env.PORT || 4002
 
 const app = express()
+
+app.use(cors())
 
 app.post('/', (req, res) => {
   res.json({ username: req.body.username })
