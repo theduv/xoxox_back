@@ -26,7 +26,7 @@ let clients = []
 let rooms = {}
 
 app.get('/users/create', (req, res) => {
-  res.send('test')
+  res.send({ zebi: 'test' })
 })
 
 io.on('connection', (socket) => {
