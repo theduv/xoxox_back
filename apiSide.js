@@ -1,8 +1,24 @@
 const express = require('express')
 const https = require('https')
 const cors = require('cors')
-
+const firestore = require('firebase-admin')
 const fs = require('fs')
+
+const firebaseConfig = {
+  apiKey: 'AIzaSyCV6x5w17TeGXCSCfI5YmcoSrYMEXeooBY',
+  authDomain: 'xoxox-f9e8a.firebaseapp.com',
+  databaseURL:
+    'https://xoxox-f9e8a-default-rtdb.europe-west1.firebasedatabase.app',
+  projectId: 'xoxox-f9e8a',
+  storageBucket: 'xoxox-f9e8a.appspot.com',
+  messagingSenderId: '938849856143',
+  appId: '1:938849856143:web:6dbbb4f06b6dfab0785efa',
+  measurementId: 'G-N2405MF6NQ',
+}
+
+firestore.initializeApp(firebaseConfig)
+
+const db = firestore.firestore()
 
 const port = process.env.PORT || 4002
 
@@ -14,7 +30,13 @@ app.use(express.json())
 app.use(express.urlencoded())
 
 app.post('/users/create', (req, res) => {
-  console.log(req.body)
+  const usersDb = db.collection('users')
+  const username = req.body.username
+  const password = req.body.password
+
+  const newUser = usersDb.doc(username)
+  newUser.set({ username, password })
+
   res.send('test')
 })
 
