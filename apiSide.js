@@ -28,12 +28,11 @@ app.use(express.json())
 app.use(express.urlencoded())
 
 app.post('/users/create', (req, res) => {
-  const usersDb = firestore.doc('users')
+  const usersDb = firestore.doc('users/FssP0jmbk0FltNIfXJF1')
   const username = req.body.username
   const password = req.body.password
 
-  const newUser = usersDb.doc(username)
-  newUser.set({ username, password })
+  const newUser = usersDb.set({username, password})
 
   res.send('test')
 })
