@@ -12,7 +12,7 @@ app.use(cors())
 
 app.post('/users/create', (req, res) => {
   console.log(req.body)
-  res.json({ test: 'test' })
+  res.send(req)
 })
 
 const server = https.createServer(
