@@ -11,7 +11,7 @@ const app = express()
 app.use(cors())
 
 app.post('/users/create', (req, res) => {
-  console.log(req)
+  console.log(req.body)
   res.json({ test: 'test' })
 })
 
