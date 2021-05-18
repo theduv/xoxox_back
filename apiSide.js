@@ -10,10 +10,8 @@ const app = express()
 
 app.use(cors())
 
-app.configure(() => {
-  app.use(express.bodyParser())
-  app.use(app.router)
-})
+app.use(express.json())
+app.use(express.urlencoded())
 
 app.post('/users/create', (req, res) => {
   console.log(req.body)
