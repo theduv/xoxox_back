@@ -16,7 +16,7 @@ app.configure(() => {
 })
 
 app.post('/users/create', (req, res) => {
-  console.log(req)
+  console.log(req.body)
   res.send('test')
 })
 
