@@ -10,7 +10,7 @@ const app = express()
 
 app.use(cors())
 
-app.post('/', (req, res) => {
+app.post('/users/create', (req, res) => {
   res.json({ username: req.body.username })
 })
 
