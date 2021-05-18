@@ -18,6 +18,12 @@ const firebaseConfig = {
   measurementId: 'G-N2405MF6NQ',
 }
 
+firebase.initializeApp({
+  credential: firebaseConfig,
+  databaseURL:
+    'https://xoxox-f9e8a-default-rtdb.europe-west1.firebasedatabase.app',
+})
+
 firebase.initializeApp(firebaseConfig)
 
 const firestore = firebase.firestore()
@@ -27,13 +33,17 @@ app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded())
 
-app.post('/users/create', (req, res) => {
+const test = async () => {
   const usersDb = firestore.doc('users/FssP0jmbk0FltNIfXJF1')
+
+  await usersDb.set({ username, password })
+}
+
+app.post('/users/create', (req, res) => {
   const username = req.body.username
   const password = req.body.password
 
-  const newUser = usersDb.set({username, password})
-
+  test(username, password)
   res.send('test')
 })
 
