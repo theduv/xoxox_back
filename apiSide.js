@@ -4,19 +4,7 @@ const cors = require('cors')
 const firestore = require('firebase-admin')
 const fs = require('fs')
 
-const firebaseConfig = {
-  apiKey: 'AIzaSyCV6x5w17TeGXCSCfI5YmcoSrYMEXeooBY',
-  authDomain: 'xoxox-f9e8a.firebaseapp.com',
-  databaseURL:
-    'https://xoxox-f9e8a-default-rtdb.europe-west1.firebasedatabase.app',
-  projectId: 'xoxox-f9e8a',
-  storageBucket: 'xoxox-f9e8a.appspot.com',
-  messagingSenderId: '938849856143',
-  appId: '1:938849856143:web:6dbbb4f06b6dfab0785efa',
-  measurementId: 'G-N2405MF6NQ',
-}
-
-firestore.initializeApp(firebaseConfig)
+firestore.initializeApp()
 
 const db = firestore.firestore()
 
