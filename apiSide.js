@@ -18,7 +18,7 @@ app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded())
 
-const test = async () => {
+const test = async (username, password) => {
   const usersDb = db.collection('users').doc('FssP0jmbk0FltNIfXJF1')
 
   usersDb.set({ username, password })
