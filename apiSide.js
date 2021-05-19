@@ -38,6 +38,24 @@ const getUsers = async (res) => {
   res.json(usersListArray)
 }
 
+const checkUsers = async (username, password, res) => {
+  const usersDb = db.collection('users')
+
+  const usersList = await usersDb.get()
+
+  let usersListArray = usersList.docs.map((doc) => {
+    return doc.data()
+  })
+  targetUser = usersListArray.find((user) => user.username === username)
+  if (targetUser === undefined) {
+    res.json({ error: 'Invalid username' })
+    return
+  }
+  if (sha.sha512(password) !== targetUser.password) {
+    res.json({ error: 'Invalid password' })
+  } else res.json({ success: 'Successfully logged in' })
+}
+
 app.post('/users/create', (req, res) => {
   const username = req.body.username
   const password = req.body.password
@@ -47,6 +65,13 @@ app.post('/users/create', (req, res) => {
 
 app.get('/users/get', (req, res) => {
   getUsers(res)
+})
+
+app.post('/users/checkLog', (req, res) => {
+  const username = req.body.username
+  const password = req.body.password
+
+  checkUsers(username, password, res)
 })
 
 const server = https.createServer(
