@@ -2,6 +2,7 @@ const express = require('express')
 const https = require('https')
 const cors = require('cors')
 const fs = require('fs')
+const sha = require('js-sha512')
 const port = process.env.PORT || 4002
 const app = express()
 const admin = require('firebase-admin')
@@ -21,7 +22,8 @@ app.use(express.urlencoded())
 const addUser = async (username, password) => {
   const usersDb = db.collection('users').doc(username)
 
-  await usersDb.set({ username, password })
+  const encryptedPassword = sha.sha512(password)
+  await usersDb.set({ username, encryptedPassword })
 }
 
 const getUsers = async (res) => {
