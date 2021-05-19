@@ -28,7 +28,11 @@ const getUsers = async (res) => {
   const usersDb = db.collection('users')
 
   const usersList = await usersDb.get()
-  res.send(usersList)
+	
+let usersListArray = usersList.docs.map((doc) => {
+	return doc.data()})
+	console.log(usersListArray)
+  res.json(usersListArray)
 }
 
 app.post('/users/create', (req, res) => {
