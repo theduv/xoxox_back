@@ -23,7 +23,7 @@ const addUser = async (username, password) => {
   const usersDb = db.collection('users').doc(username)
 
   const encryptedPassword = sha.sha512(password)
-  await usersDb.set({ username, encryptedPassword })
+  await usersDb.set({ username, password: encryptedPassword })
 }
 
 const getUsers = async (res) => {
