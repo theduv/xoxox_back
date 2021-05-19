@@ -18,18 +18,28 @@ app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded())
 
-const test = async (username, password) => {
+const addUser = async (username, password) => {
   const usersDb = db.collection('users').doc(username)
 
   await usersDb.set({ password })
+}
+
+const getUsers = async (res) => {
+  const usersDb = db.collection('users')
+
+  const usersList = await usersDb.get()
+  res.send(usersList)
 }
 
 app.post('/users/create', (req, res) => {
   const username = req.body.username
   const password = req.body.password
 
-  test(username, password)
-  res.send('test')
+  addUser(username, password)
+})
+
+app.get('/users/get', (req, res) => {
+  getUsers(res)
 })
 
 const server = https.createServer(
