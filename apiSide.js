@@ -4,29 +4,14 @@ const cors = require('cors')
 const fs = require('fs')
 const port = process.env.PORT || 4002
 const app = express()
-const firebase = require('firebase-admin')
+const admin = require('firebase-admin')
+const serviceAccount = require('./firestoreTokens.json')
 
-const firebaseConfig = {
-  apiKey: 'AIzaSyCV6x5w17TeGXCSCfI5YmcoSrYMEXeooBY',
-  authDomain: 'xoxox-f9e8a.firebaseapp.com',
-  databaseURL:
-    'https://xoxox-f9e8a-default-rtdb.europe-west1.firebasedatabase.app',
-  projectId: 'xoxox-f9e8a',
-  storageBucket: 'xoxox-f9e8a.appspot.com',
-  messagingSenderId: '938849856143',
-  appId: '1:938849856143:web:6dbbb4f06b6dfab0785efa',
-  measurementId: 'G-N2405MF6NQ',
-}
-
-firebase.initializeApp({
-  credential: firebaseConfig,
-  databaseURL:
-    'https://xoxox-f9e8a-default-rtdb.europe-west1.firebasedatabase.app',
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
 })
 
-firebase.initializeApp(firebaseConfig)
-
-const firestore = firebase.firestore()
+const db = admin.firestore()
 
 app.use(cors())
 
@@ -34,9 +19,9 @@ app.use(express.json())
 app.use(express.urlencoded())
 
 const test = async () => {
-  const usersDb = firestore.doc('users/FssP0jmbk0FltNIfXJF1')
+  const usersDb = db.collection('users').doc('FssP0jmbk0FltNIfXJF1')
 
-  await usersDb.set({ username, password })
+  usersDb.set({ username, password })
 }
 
 app.post('/users/create', (req, res) => {
