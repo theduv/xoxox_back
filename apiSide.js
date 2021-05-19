@@ -19,9 +19,9 @@ app.use(express.json())
 app.use(express.urlencoded())
 
 const test = async (username, password) => {
-  const usersDb = db.collection('users').doc('FssP0jmbk0FltNIfXJF1')
+  const usersDb = db.collection('users').doc(username)
 
-  await usersDb.set({ username, password })
+  await usersDb.set({ password })
 }
 
 app.post('/users/create', (req, res) => {
