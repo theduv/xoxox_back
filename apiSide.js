@@ -21,17 +21,18 @@ app.use(express.urlencoded())
 const addUser = async (username, password) => {
   const usersDb = db.collection('users').doc(username)
 
-  await usersDb.set({ password })
+  await usersDb.set({ username, password })
 }
 
 const getUsers = async (res) => {
   const usersDb = db.collection('users')
 
   const usersList = await usersDb.get()
-	
-let usersListArray = usersList.docs.map((doc) => {
-	return doc.data()})
-	console.log(usersListArray)
+
+  let usersListArray = usersList.docs.map((doc) => {
+    return doc.data()
+  })
+  console.log(usersListArray)
   res.json(usersListArray)
 }
 
