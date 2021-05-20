@@ -130,7 +130,7 @@ const onDisconnect = (data, rooms, clients, io) => {
       players: admin.firestore.FieldValue.arrayRemove(data.user),
     })
   db.collection('rooms')
-    .doc(room)
+    .doc(roomName)
     .get()
     .then((res) => {
       console.log(res)
