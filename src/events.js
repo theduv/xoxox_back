@@ -1,3 +1,5 @@
+const admin = require('firebase-admin')
+
 const util = require('./util')
 const serviceAccount = require('../firestoreTokens.json')
 admin.initializeApp({
