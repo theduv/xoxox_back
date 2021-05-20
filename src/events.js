@@ -123,6 +123,17 @@ const onDisconnect = (socket, rooms, clients, io) => {
   })
   if (!client) return
   const room = rooms[client.room]
+  db.collection('rooms')
+    .doc(data.room)
+    .update({
+      players: admin.firestore.FieldValue.arrayRemove(data.player.id),
+    })
+  db.collection('rooms')
+    .doc(room)
+    .get()
+    .then((data) => {
+      console.log(data)
+    })
 
   rooms[room.name].chat.push({
     username: '',
