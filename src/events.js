@@ -1,5 +1,4 @@
 const admin = require('firebase-admin')
-
 const util = require('./util')
 const serviceAccount = require('../firestoreTokens.json')
 const { firebaseConfig } = require('firebase-functions')
@@ -39,7 +38,7 @@ const onPlayerJoinRoom = (data, socket, rooms, clients, io) => {
   else rooms[data.room].numPlayers++
 
   db.collection('rooms').doc(data.room).update({
-    players: firebase.firestore.FieldValue.arrayUnion[data.player.id],
+    players: admin.firestore.FieldValue.arrayUnion[data.player.id],
   })
   room = rooms[data.room]
   room.players.push(data.player)
