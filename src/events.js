@@ -37,9 +37,11 @@ const onPlayerJoinRoom = (data, socket, rooms, clients, io) => {
     }
   else rooms[data.room].numPlayers++
 
-  db.collection('rooms').doc(data.room).update({
-    players: admin.firestore.FieldValue.arrayUnion[data.player.id],
-  })
+  db.collection('rooms')
+    .doc(data.room)
+    .update({
+      players: admin.firestore.FieldValue.arrayUnion(data.player.id),
+    })
   room = rooms[data.room]
   room.players.push(data.player)
   room.chat.push({
