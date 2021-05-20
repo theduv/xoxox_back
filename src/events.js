@@ -127,23 +127,23 @@ const onDisconnect = (data, rooms, clients, io) => {
   db.collection('rooms')
     .doc(data.room)
     .update({
-      players: admin.firestore.FieldValue.arrayRemove(data.player.id),
+      players: admin.firestore.FieldValue.arrayRemove(data.user),
     })
   db.collection('rooms')
     .doc(room)
     .get()
-    .then((data) => {
-      console.log(data)
+    .then((res) => {
+      console.log(res)
     })
 
-  rooms[room.name].chat.push({
+  rooms[roomName].chat.push({
     username: '',
     content: 'someone left the room',
     className: 'globalMessage',
   })
-  rooms[room.name].numPlayers--
-  if (rooms[room.name] === 0) {
-    delete rooms[room.name]
+  rooms[roomName].numPlayers--
+  if (rooms[roomName] === 0) {
+    delete rooms[roomName]
     return
   }
 
