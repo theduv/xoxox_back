@@ -118,13 +118,11 @@ const onChangeName = (data, rooms, io) => {
   io.to(room.name).emit('currentPlayers', room.players)
 }
 
-const onDisconnect = (socket, rooms, clients, io) => {
-  const client = clients.find((client) => {
-    return socket === client.socket
-  })
+const onDisconnect = (data, rooms, clients, io) => {
+  const roomName = data.room
+  const client = data.user
+
   console.log('SOMEONE DISCONNECTED !!!')
-  if (!client) return
-  console.log('test2')
   const room = rooms[client.room]
   db.collection('rooms')
     .doc(data.room)
