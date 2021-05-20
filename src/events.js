@@ -134,12 +134,15 @@ const onDisconnect = (data, rooms, clients, io) => {
     .doc(roomName)
     .get()
     .then((res) => {
-      console.log(res)
+      const players = res.data().players
+      if (players.length() === 0) {
+        db.collection('rooms').doc(roomName).delete()
+      }
     })
 
   rooms[roomName].chat.push({
     username: '',
-    content: 'someone left the room',
+    content: '${} left the room',
     className: 'globalMessage',
   })
   rooms[roomName].numPlayers--
