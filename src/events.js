@@ -39,7 +39,7 @@ const onPlayerJoinRoom = (data, socket, rooms, clients, io) => {
   else rooms[data.room].numPlayers++
 
   db.collection('rooms').doc(data.room).update({
-    players: firebaseConfig.firestore.FieldValue.arrayUnion[data.player.id],
+    players: firebase.firestore.FieldValue.arrayUnion[data.player.id],
   })
   room = rooms[data.room]
   room.players.push(data.player)
