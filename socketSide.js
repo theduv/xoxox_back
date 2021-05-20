@@ -36,8 +36,11 @@ io.on('connection', (socket) => {
   socket.on('sendMessage', (data) => {
     events.onSendMessage(data, rooms, io)
   })
-  socket.on('playerDisconnected', (socket) => {
-    events.onDisconnect(socket, rooms, clients, io)
+  socket.on('playerDisconnected', (data) => {
+    events.onDisconnect(data, rooms, clients, io)
+  })
+  socket.on('disconnect', () => {
+    events.onDisconnect(socket.data, rooms, clients, io)
   })
 })
 

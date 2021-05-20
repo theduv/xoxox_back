@@ -37,6 +37,7 @@ const onPlayerJoinRoom = (data, socket, rooms, clients, io) => {
     }
   else rooms[data.room].numPlayers++
 
+  socket.data = { room: data.room, user: data.player.id }
   db.collection('rooms')
     .doc(data.room)
     .update({
