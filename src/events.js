@@ -64,6 +64,7 @@ const onPlayerJoinRoom = (data, socket, rooms, clients, io) => {
   } else if (room.numPlayers === 2) {
     socket.emit('playerType', 'X')
   } else socket.emit('playerType', '-')
+  console.log('passe')
   clients.push({ socket, room: room.name, id: data.player.id })
 }
 
