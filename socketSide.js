@@ -3,7 +3,6 @@ const https = require('https')
 const fs = require('fs')
 const cors = require('cors')
 const events = require('./src/events')
-
 const port = process.env.PORT || 4001
 
 const app = express()

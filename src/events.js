@@ -1,4 +1,9 @@
 const util = require('./util')
+const serviceAccount = require('../firestoreTokens.json')
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+})
+const db = admin.firestore()
 
 const onPlayerJoinRoom = (data, socket, rooms, clients, io) => {
   if (rooms[data.room] === undefined)
@@ -30,6 +35,11 @@ const onPlayerJoinRoom = (data, socket, rooms, clients, io) => {
     }
   else rooms[data.room].numPlayers++
 
+  db.collection('rooms')
+    .doc(data.room)
+    .set({
+      players: [data.player.id],
+    })
   room = rooms[data.room]
   room.players.push(data.player)
   room.chat.push({
