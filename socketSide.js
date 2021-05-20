@@ -27,9 +27,6 @@ io.on('connection', (socket) => {
   socket.on('playerJoined', (data) => {
     events.onPlayerJoinRoom(data, socket, rooms, clients, io)
   })
-  socket.on('getRooms', () => {
-    events.emit('sendRooms', rooms)
-  })
   socket.on('clickBoard', (data) => {
     events.onClickBoard(rooms, data, io)
   })
