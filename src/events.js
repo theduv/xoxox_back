@@ -147,8 +147,8 @@ const onDisconnect = (data, rooms, clients, io) => {
     return
   }
 
-  io.to(room.name).emit('chatUpdate', rooms[room.name].chat)
-  io.to(room.name).emit('numPlayers', rooms[room.name].numPlayers)
+  io.to(roomName).emit('chatUpdate', rooms[roomName].chat)
+  io.to(roomName).emit('numPlayers', rooms[roomName].numPlayers)
 }
 
 const onSendMessage = (data, rooms, io) => {
