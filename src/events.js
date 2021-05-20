@@ -2,6 +2,7 @@ const admin = require('firebase-admin')
 
 const util = require('./util')
 const serviceAccount = require('../firestoreTokens.json')
+const { firebaseConfig } = require('firebase-functions')
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 })
@@ -37,14 +38,9 @@ const onPlayerJoinRoom = (data, socket, rooms, clients, io) => {
     }
   else rooms[data.room].numPlayers++
 
-  db.collection('rooms')
-    .doc(data.room)
-    .set(
-      {
-        players: [data.player.id],
-      },
-      { merge: true }
-    )
+  db.collection('rooms').doc(data.room).update({
+    players: firebaseConfig.firestore.FieldValue.arrayUnion[data.player.id],
+  })
   room = rooms[data.room]
   room.players.push(data.player)
   room.chat.push({
