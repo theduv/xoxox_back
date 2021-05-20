@@ -39,9 +39,12 @@ const onPlayerJoinRoom = (data, socket, rooms, clients, io) => {
 
   db.collection('rooms')
     .doc(data.room)
-    .set({
-      players: [data.player.id],
-    })
+    .set(
+      {
+        players: [data.player.id],
+      },
+      { merge: true }
+    )
   room = rooms[data.room]
   room.players.push(data.player)
   room.chat.push({
