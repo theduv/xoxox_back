@@ -121,7 +121,9 @@ const onDisconnect = (socket, rooms, clients, io) => {
   const client = clients.find((client) => {
     return socket === client.socket
   })
+  console.log('test1')
   if (!client) return
+  console.log('test2')
   const room = rooms[client.room]
   db.collection('rooms')
     .doc(data.room)
