@@ -1,25 +1,17 @@
-const admin = require('firebase-admin')
 const util = require('./util')
-const serviceAccount = require('../firestoreTokens.json')
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-})
-const db = admin.firestore()
+const firestoreFn = require('./firestoreFunctions')
 
 const onPlayerJoinRoom = (data, socket, rooms, clients, io) => {
   let targetRoom = util.findRoomWithName(data.room, rooms)
   if (targetRoom === undefined) {
+    firestoreFn.createRoom(data.room, data.player.id)
     rooms = util.addFreshRoom(rooms, data.room)
     targetRoom = util.findRoomWithName(data.room, rooms)
   } else targetRoom.numPlayers++
 
   const roomName = targetRoom.name
   socket.data = { room: data.room, user: data.player.id }
-  db.collection('rooms')
-    .doc(data.room)
-    .update({
-      players: admin.firestore.FieldValue.arrayUnion(data.player.id),
-    })
+  firestoreFn.addUserToRoom(data.room, data.player.id)
   targetRoom.players.push(data.player)
   targetRoom.chat.push({
     username: '',
@@ -88,16 +80,6 @@ const onClickBoard = (rooms, data, io) => {
   io.to(targetName).emit('playableUpdate', targetRoom.playable)
 }
 
-const onChangeName = (data, rooms, io) => {
-  const room = rooms[data.room]
-
-  const indexTarget = room.players.findIndex((player) => {
-    return player.id === data.playerId
-  })
-  room.players[indexTarget].name = data.newName
-  io.to(room.name).emit('currentPlayers', room.players)
-}
-
 const onDisconnect = (data, rooms, clients, io) => {
   const roomName = data.room
   const client = data.user
@@ -124,7 +106,7 @@ const onDisconnect = (data, rooms, clients, io) => {
 
   room.chat.push({
     username: '',
-    content: '${} left the room',
+    content: `${client.name} left the room`,
     className: 'globalMessage',
   })
   room.numPlayers--
@@ -149,7 +131,6 @@ const onSendMessage = (data, rooms, io) => {
 }
 
 module.exports = {
-  onChangeName,
   onSendMessage,
   onDisconnect,
   onPlayerJoinRoom,
