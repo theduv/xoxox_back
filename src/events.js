@@ -52,7 +52,10 @@ const onClickBoard = (rooms, data, io) => {
   targetRoom.round++
   targetRoom.board[data.coords[0]][data.coords[1]] = data.player
   targetRoom.playable = util.getArrayPlayable(data.coords[0], data.coords[1])
-  const wonSquare = util.checkIfSomethingWon(targetR.board, targetR.gameState)
+  const wonSquare = util.checkIfSomethingWon(
+    targetRoom.board,
+    targetRoom.gameState
+  )
 
   targetRoom.lastPlayed = [data.coords[0], data.coords[1]]
   const targetName = targetRoom.name
