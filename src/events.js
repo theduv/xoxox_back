@@ -8,8 +8,10 @@ const db = admin.firestore()
 
 const onPlayerJoinRoom = (data, socket, rooms, clients, io) => {
   const targetRoom = util.findRoomWithName(data.room, rooms)
-  if (targetRoom === undefined) rooms = util.addFreshRoom(rooms, data.room)
-  else targetRoom.numPlayers++
+  if (targetRoom === undefined) {
+    rooms = util.addFreshRoom(rooms, data.room)
+    const targetRoom = util.findRoomWithName(data.room, rooms)
+  } else targetRoom.numPlayers++
 
   const roomName = targetRoom.name
   socket.data = { room: data.room, user: data.player.id }
