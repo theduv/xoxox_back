@@ -139,19 +139,19 @@ const onDisconnect = (data, rooms, clients, io) => {
       }
     })
 
-  rooms[roomName].chat.push({
+  room.chat.push({
     username: '',
     content: '${} left the room',
     className: 'globalMessage',
   })
-  rooms[roomName].numPlayers--
-  if (rooms[roomName] === 0) {
-    delete rooms[roomName]
+  room.numPlayers--
+  if (room.numPlayers === 0) {
+    rooms.splice(util.findIndexRoom(roomName, rooms), 1)
     return
   }
 
-  io.to(roomName).emit('chatUpdate', rooms[roomName].chat)
-  io.to(roomName).emit('numPlayers', rooms[roomName].numPlayers)
+  io.to(roomName).emit('chatUpdate', room.chat)
+  io.to(roomName).emit('numPlayers', room.numPlayers)
 }
 
 const onSendMessage = (data, rooms, io) => {
