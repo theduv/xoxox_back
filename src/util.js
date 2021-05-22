@@ -41,7 +41,7 @@ const addFreshRoom = (rooms, roomName) => {
   return rooms
 }
 
-const findRoomWithIndex = (name, rooms) => {
+const findRoomWithName = (name, rooms) => {
   return rooms[rooms.findIndex((room) => room.name === name)]
 }
 
@@ -100,7 +100,7 @@ const checkIfSomethingWon = (grid, gameState) => {
 
 module.exports = {
   addFreshRoom,
-  findRoomWithIndex,
+  findRoomWithName,
   checkIfSomethingWon,
   checkIfSquareWon,
   getArrayPlayable,
