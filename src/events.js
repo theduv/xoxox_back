@@ -80,12 +80,12 @@ const onClickBoard = (rooms, data, io) => {
       return
     }
   }
-  io.to(room.name).emit('currentBoard', {
-    board: room.board,
-    lastPlayed: room.lastPlayed,
+  io.to(targetName).emit('currentBoard', {
+    board: targetRoom.board,
+    lastPlayed: targetRoom.lastPlayed,
   })
-  io.to(room.name).emit('turnUpdate', room.turn)
-  io.to(room.name).emit('playableUpdate', room.playable)
+  io.to(targetName).emit('turnUpdate', targetRoom.turn)
+  io.to(targetName).emit('playableUpdate', targetRoom.playable)
 }
 
 const onChangeName = (data, rooms, io) => {
