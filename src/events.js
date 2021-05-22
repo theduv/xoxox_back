@@ -97,7 +97,7 @@ const onDisconnect = (data, rooms, clients, io) => {
   const client = data.user
 
   console.log(`${client} left the room ${roomName}`)
-  const room = rooms[util.findIndexRoom(roomName, rooms)]
+  const room = util.findRoomWithName(roomName, rooms)
   db.collection('rooms')
     .doc(data.room)
     .update({
@@ -119,17 +119,17 @@ const onDisconnect = (data, rooms, clients, io) => {
     className: 'globalMessage',
   })
   room.numPlayers--
-  if (room.numPlayers === 0) {
-    rooms.splice(util.findIndexRoom(roomName, rooms), 1)
-    return
-  }
+  // if (room.numPlayers === 0) {
+  //   rooms.splice(util.findIndexRoom(roomName, rooms), 1)
+  //   return
+  // }
 
   io.to(roomName).emit('chatUpdate', room.chat)
   io.to(roomName).emit('numPlayers', room.numPlayers)
 }
 
 const onSendMessage = (data, rooms, io) => {
-  const room = rooms[util.findIndexRoom(data.room, rooms)]
+  const room = util.findRoomWithName(data.room, rooms)
 
   room.chat.push({
     username: data.user,
