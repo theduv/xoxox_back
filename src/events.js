@@ -27,7 +27,7 @@ const onPlayerJoinRoom = (data, socket, rooms, clients, io) => {
     className: 'globalMessage',
   })
   socket.join(roomName)
-  io.to(roomName).emit('chatUpdate', room.chat)
+  io.to(roomName).emit('chatUpdate', targetRoom.chat)
   io.to(roomName).emit('currentBoard', {
     board: targetRoom.board,
     lastPlayed: [-1, -1],
