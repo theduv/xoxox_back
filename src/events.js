@@ -100,8 +100,9 @@ const onDisconnect = (data, rooms, clients, io) => {
 
   console.log(`${client} left the room ${roomName}`)
   const room = util.findRoomWithName(roomName, rooms)
+  if (!room) return
   db.collection('rooms')
-    .doc(data.room)
+    .doc(roomName)
     .update({
       players: admin.firestore.FieldValue.arrayRemove(data.user),
     })
