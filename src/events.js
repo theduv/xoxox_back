@@ -115,6 +115,7 @@ const onDisconnect = (data, rooms, clients, io) => {
     .get()
     .then((res) => {
       const players = res.data().players
+      console.log(players)
       if (players.length === 0) {
         db.collection('rooms').doc(roomName).delete()
       }
