@@ -45,34 +45,35 @@ const onPlayerJoinRoom = (data, socket, rooms, clients, io) => {
 }
 
 const onClickBoard = (rooms, data, io) => {
-  const room = rooms[util.findIndexRoom(data.room, rooms)]
+  const targetRoom = util.findRoomWithName(data.room, rooms)
 
-  if (!room) return
-  room.turn = room.turn === 'X' ? 'O' : 'X'
-  room.round++
-  room.board[data.coords[0]][data.coords[1]] = data.player
-  room.playable = getArrayPlayable(data.coords[0], data.coords[1])
-  const wonSquare = checkIfSomethingWon(room.board, room.gameState)
+  if (!targetRoom) return
+  targetRoom.turn = targetRoom.turn === 'X' ? 'O' : 'X'
+  targetRoom.round++
+  targetRoom.board[data.coords[0]][data.coords[1]] = data.player
+  targetRoom.playable = getArrayPlayable(data.coords[0], data.coords[1])
+  const wonSquare = checkIfSomethingWon(targetR.board, targetR.gameState)
 
-  room.lastPlayed = [data.coords[0], data.coords[1]]
+  targetRoom.lastPlayed = [data.coords[0], data.coords[1]]
+  const targetName = targetRoom.name
   if (wonSquare) {
-    room.gameState[wonSquare.square[0] / 3][wonSquare.square[1] / 3] =
+    targetRoom.gameState[wonSquare.square[0] / 3][wonSquare.square[1] / 3] =
       wonSquare.won
-    io.to(room.name).emit('gameStateUpdate', room.gameState)
-    const globalWon = checkIfSquareWon(room.gameState)
+    io.to(targetRoom.name).emit('gameStateUpdate', targetRoom.gameState)
+    const globalWon = checkIfSquareWon(targetRoom.gameState)
     if (globalWon) {
-      room.chat.push({
+      targetRoom.chat.push({
         username: '',
         content: `${globalWon} won the game !`,
         className: 'globalMessage',
       })
-      io.to(room.name).emit('currentBoard', {
-        board: rooms[data.room].board,
+      io.to(targetName).emit('currentBoard', {
+        board: targetRoom.board,
         lastPlayed: room.lastPlayed,
       })
-      io.to(room.name).emit('chatUpdate', room.chat)
-      io.to(room.name).emit('turnUpdate', '-')
-      io.to(room.name).emit('playableUpdate', [])
+      io.to(targetName).emit('chatUpdate', targetRoom.chat)
+      io.to(targetName).emit('turnUpdate', '-')
+      io.to(targetName).emit('playableUpdate', [])
       return
     }
   }
