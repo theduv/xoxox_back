@@ -7,7 +7,7 @@ admin.initializeApp({
 const db = admin.firestore()
 
 const onPlayerJoinRoom = (data, socket, rooms, clients, io) => {
-  if (rooms[util.findIndexRoom(data.room)] === undefined)
+  if (rooms[util.findIndexRoom(data.room, rooms)] === undefined)
     rooms.push({
       name: data.room,
       round: 0,
@@ -69,7 +69,7 @@ const onPlayerJoinRoom = (data, socket, rooms, clients, io) => {
 }
 
 const onClickBoard = (rooms, data, io) => {
-  const room = rooms[util.findIndexRoom(data.room)]
+  const room = rooms[util.findIndexRoom(data.room, rooms)]
 
   if (!room) return
   room.turn = room.turn === 'X' ? 'O' : 'X'
@@ -123,7 +123,7 @@ const onDisconnect = (data, rooms, clients, io) => {
   const client = data.user
 
   console.log(`${client} left the room ${roomName}`)
-  const room = rooms[util.findIndexRoom(roomName)]
+  const room = rooms[util.findIndexRoom(roomName, rooms)]
   db.collection('rooms')
     .doc(data.room)
     .update({
@@ -155,7 +155,7 @@ const onDisconnect = (data, rooms, clients, io) => {
 }
 
 const onSendMessage = (data, rooms, io) => {
-  const room = rooms[util.findIndexRoom(data.room)]
+  const room = rooms[util.findIndexRoom(data.room, rooms)]
 
   room.chat.push({
     username: data.user,
