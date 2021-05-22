@@ -11,8 +11,38 @@ const getArrayPlayable = (line, square) => {
   return arraySquares
 }
 
-const findIndexRoom = (name, rooms) => {
-  return rooms.findIndex((room) => room.name === name)
+const addFreshRoom = (rooms, roomName) => {
+  rooms.push({
+    name: roomName,
+    round: 0,
+    turn: 'O',
+    numPlayers: 1,
+    players: [],
+    gameState: [
+      ['', '', ''],
+      ['', '', ''],
+      ['', '', ''],
+    ],
+    lastPlayed: [-1, -1],
+    board: [
+      ['', '', '', '', '', '', '', '', ''],
+      ['', '', '', '', '', '', '', '', ''],
+      ['', '', '', '', '', '', '', '', ''],
+      ['', '', '', '', '', '', '', '', ''],
+      ['', '', '', '', '', '', '', '', ''],
+      ['', '', '', '', '', '', '', '', ''],
+      ['', '', '', '', '', '', '', '', ''],
+      ['', '', '', '', '', '', '', '', ''],
+      ['', '', '', '', '', '', '', '', ''],
+    ],
+    playable: getArrayPlayable(1, 1),
+    chat: [],
+  })
+  return rooms
+}
+
+const findRoomWithIndex = (name, rooms) => {
+  return rooms[rooms.findIndex((room) => room.name === name)]
 }
 
 const checkIfSquareWon = (square) => {
@@ -69,7 +99,8 @@ const checkIfSomethingWon = (grid, gameState) => {
 }
 
 module.exports = {
-  findIndexRoom,
+  addFreshRoom,
+  findRoomWithIndex,
   checkIfSomethingWon,
   checkIfSquareWon,
   getArrayPlayable,

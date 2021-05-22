@@ -7,65 +7,39 @@ admin.initializeApp({
 const db = admin.firestore()
 
 const onPlayerJoinRoom = (data, socket, rooms, clients, io) => {
-  if (rooms[util.findIndexRoom(data.room, rooms)] === undefined)
-    rooms.push({
-      name: data.room,
-      round: 0,
-      turn: 'O',
-      numPlayers: 1,
-      players: [],
-      gameState: [
-        ['', '', ''],
-        ['', '', ''],
-        ['', '', ''],
-      ],
-      lastPlayed: [-1, -1],
-      board: [
-        ['', '', '', '', '', '', '', '', ''],
-        ['', '', '', '', '', '', '', '', ''],
-        ['', '', '', '', '', '', '', '', ''],
-        ['', '', '', '', '', '', '', '', ''],
-        ['', '', '', '', '', '', '', '', ''],
-        ['', '', '', '', '', '', '', '', ''],
-        ['', '', '', '', '', '', '', '', ''],
-        ['', '', '', '', '', '', '', '', ''],
-        ['', '', '', '', '', '', '', '', ''],
-      ],
-      playable: util.getArrayPlayable(1, 1),
-      chat: [],
-    })
-  else rooms[data.room].numPlayers++
+  const targetRoom = util.findRoomWithName(data.room, rooms)
+  if (targetRoom === undefined) rooms = util.addFreshRoom(rooms, data.room)
+  else targetRoom.numPlayers++
 
+  const roomName = targetRoom.name
   socket.data = { room: data.room, user: data.player.id }
   db.collection('rooms')
     .doc(data.room)
     .update({
       players: admin.firestore.FieldValue.arrayUnion(data.player.id),
     })
-  room = rooms[util.findIndexRoom(data.room)]
-  room.players.push(data.player)
-  room.chat.push({
+  targetRoom.players.push(data.player)
+  targetRoom.chat.push({
     username: '',
     content: `${data.player.name} joined the room`,
     className: 'globalMessage',
   })
-  socket.join(room.name)
-  io.to(room.name).emit('chatUpdate', room.chat)
-  io.to(room.name).emit('currentBoard', {
-    board: room.board,
+  socket.join(roomName)
+  io.to(roomName).emit('chatUpdate', room.chat)
+  io.to(roomName).emit('currentBoard', {
+    board: targetRoom.board,
     lastPlayed: [-1, -1],
   })
-  io.to(room.name).emit('turnUpdate', room.turn)
-  io.to(room.name).emit('numPlayers', room.numPlayers)
-  io.to(room.name).emit('playableUpdate', room.playable)
-  io.to(room.name).emit('currentPlayers', room.players)
-  if (room.numPlayers === 1) {
+  io.to(roomName).emit('turnUpdate', targetRoom.turn)
+  io.to(roomName).emit('numPlayers', targetRoom.numPlayers)
+  io.to(roomName).emit('playableUpdate', targetRoom.playable)
+  io.to(roomName).emit('currentPlayers', targetRoom.players)
+  if (targetRoom.numPlayers === 1) {
     socket.emit('playerType', 'O')
-  } else if (room.numPlayers === 2) {
+  } else if (targetRoom.numPlayers === 2) {
     socket.emit('playerType', 'X')
   } else socket.emit('playerType', '-')
-  console.log('passe')
-  clients.push({ socket, room: room.name, id: data.player.id })
+  clients.push({ socket, room: roomName, id: data.player.id })
 }
 
 const onClickBoard = (rooms, data, io) => {
