@@ -8,8 +8,8 @@ admin.initializeApp({
 const db = admin.firestore()
 
 const onPlayerJoinRoom = (data, socket, rooms, clients, io) => {
-  if (rooms[data.room] === undefined)
-    rooms[data.room] = {
+  if (rooms[findIndexByName(data.room)] === undefined)
+    rooms.push({
       name: data.room,
       round: 0,
       turn: 'O',
@@ -34,7 +34,7 @@ const onPlayerJoinRoom = (data, socket, rooms, clients, io) => {
       ],
       playable: util.getArrayPlayable(1, 1),
       chat: [],
-    }
+    })
   else rooms[data.room].numPlayers++
 
   socket.data = { room: data.room, user: data.player.id }
@@ -70,7 +70,7 @@ const onPlayerJoinRoom = (data, socket, rooms, clients, io) => {
 }
 
 const onClickBoard = (rooms, data, io) => {
-  const room = rooms[data.room]
+  const room = rooms[findIndexByName(data.room)]
 
   if (!room) return
   room.turn = room.turn === 'X' ? 'O' : 'X'
@@ -123,8 +123,8 @@ const onDisconnect = (data, rooms, clients, io) => {
   const roomName = data.room
   const client = data.user
 
-  console.log('SOMEONE DISCONNECTED !!!')
-  const room = rooms[client.room]
+  console.log(`${client} left the room ${roomName}`)
+  const room = rooms[findIndexByName(roomName)]
   db.collection('rooms')
     .doc(data.room)
     .update({
@@ -156,7 +156,7 @@ const onDisconnect = (data, rooms, clients, io) => {
 }
 
 const onSendMessage = (data, rooms, io) => {
-  const room = rooms[data.room]
+  const room = rooms[findIndexByName(data.room)]
 
   room.chat.push({
     username: data.user,

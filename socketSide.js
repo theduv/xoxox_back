@@ -22,7 +22,7 @@ const io = require('socket.io')(server, {
 
 let clients = []
 
-let rooms = {}
+let rooms = []
 io.on('connection', (socket) => {
   socket.on('playerJoined', (data) => {
     events.onPlayerJoinRoom(data, socket, rooms, clients, io)

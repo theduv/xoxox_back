@@ -11,6 +11,10 @@ const getArrayPlayable = (line, square) => {
   return arraySquares
 }
 
+const findIndexRoom = (name, rooms) => {
+  return rooms.findIndex((room) => room.name === name)
+}
+
 const checkIfSquareWon = (square) => {
   for (let i = 0; i < 3; i++) {
     if (
@@ -65,6 +69,7 @@ const checkIfSomethingWon = (grid, gameState) => {
 }
 
 module.exports = {
+  findIndexRoom,
   checkIfSomethingWon,
   checkIfSquareWon,
   getArrayPlayable,
