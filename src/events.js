@@ -87,22 +87,8 @@ const onDisconnect = (data, rooms, clients, io) => {
   console.log(`${client} left the room ${roomName}`)
   const room = util.findRoomWithName(roomName, rooms)
   if (!room) return
-  db.collection('rooms')
-    .doc(roomName)
-    .update({
-      players: admin.firestore.FieldValue.arrayRemove(data.user),
-    })
-    .then(() => {
-      db.collection('rooms')
-        .doc(roomName)
-        .get()
-        .then((res) => {
-          const players = res.data().players
-          if (players.length === 0) {
-            db.collection('rooms').doc(roomName).delete()
-          }
-        })
-    })
+
+  firestoreFn.removeUserFromRoom(roomName, client)
 
   room.chat.push({
     username: '',

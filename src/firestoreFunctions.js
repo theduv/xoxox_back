@@ -33,7 +33,27 @@ const createRoom = (room, owner) => {
   })
 }
 
+const removeUserFromRoom = (room, user) =>
+  db
+    .collection('rooms')
+    .doc(room)
+    .update({
+      players: admin.firestore.FieldValue.arrayRemove(user),
+    })
+    .then(() => {
+      db.collection('rooms')
+        .doc(room)
+        .get()
+        .then((res) => {
+          const players = res.data().players
+          if (players.length === 0) {
+            db.collection('rooms').doc(room).delete()
+          }
+        })
+    })
+
 module.exports = {
   addUserToRoom,
   createRoom,
+  removeUserFromRoom,
 }
