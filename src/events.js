@@ -1,14 +1,13 @@
 const admin = require('firebase-admin')
 const util = require('./util')
 const serviceAccount = require('../firestoreTokens.json')
-const { firebaseConfig } = require('firebase-functions')
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 })
 const db = admin.firestore()
 
 const onPlayerJoinRoom = (data, socket, rooms, clients, io) => {
-  if (rooms[findIndexByName(data.room)] === undefined)
+  if (rooms[util.findIndexByName(data.room)] === undefined)
     rooms.push({
       name: data.room,
       round: 0,
@@ -70,7 +69,7 @@ const onPlayerJoinRoom = (data, socket, rooms, clients, io) => {
 }
 
 const onClickBoard = (rooms, data, io) => {
-  const room = rooms[findIndexByName(data.room)]
+  const room = rooms[util.findIndexByName(data.room)]
 
   if (!room) return
   room.turn = room.turn === 'X' ? 'O' : 'X'
@@ -124,7 +123,7 @@ const onDisconnect = (data, rooms, clients, io) => {
   const client = data.user
 
   console.log(`${client} left the room ${roomName}`)
-  const room = rooms[findIndexByName(roomName)]
+  const room = rooms[util.findIndexByName(roomName)]
   db.collection('rooms')
     .doc(data.room)
     .update({
@@ -156,7 +155,7 @@ const onDisconnect = (data, rooms, clients, io) => {
 }
 
 const onSendMessage = (data, rooms, io) => {
-  const room = rooms[findIndexByName(data.room)]
+  const room = rooms[util.findIndexByName(data.room)]
 
   room.chat.push({
     username: data.user,
