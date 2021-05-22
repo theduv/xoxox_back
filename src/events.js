@@ -110,15 +110,16 @@ const onDisconnect = (data, rooms, clients, io) => {
     .update({
       players: admin.firestore.FieldValue.arrayRemove(data.user),
     })
-  db.collection('rooms')
-    .doc(roomName)
-    .get()
-    .then((res) => {
-      const players = res.data().players
-      console.log(players)
-      if (players.length === 0) {
-        db.collection('rooms').doc(roomName).delete()
-      }
+    .then(() => {
+      db.collection('rooms')
+        .doc(roomName)
+        .get()
+        .then((res) => {
+          const players = res.data().players
+          if (players.length === 0) {
+            db.collection('rooms').doc(roomName).delete()
+          }
+        })
     })
 
   room.chat.push({
