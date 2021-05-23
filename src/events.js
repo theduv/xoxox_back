@@ -1,7 +1,7 @@
 const util = require('./util')
 const firestoreFn = require('./firestoreFunctions')
 
-const onPlayerJoinRoom = (data, socket, rooms, clients, io) => {
+const onPlayerJoinRoom = async (data, socket, rooms, clients, io) => {
   let targetRoom = util.findRoomWithName(data.room, rooms)
   if (targetRoom === undefined) {
     firestoreFn.createRoom(data.room, data.player.id)
@@ -9,7 +9,10 @@ const onPlayerJoinRoom = (data, socket, rooms, clients, io) => {
     targetRoom = util.findRoomWithName(data.room, rooms)
   } else targetRoom.numPlayers++
 
-  firestoreFn.getUsernameFromUid(data.player.id, socket)
+  const playerName = await firestoreFn.getUsernameFromUid(
+    data.player.id,
+    socket
+  )
 
   const roomName = targetRoom.name
   socket.data = { room: data.room, user: data.player.id }
@@ -17,7 +20,7 @@ const onPlayerJoinRoom = (data, socket, rooms, clients, io) => {
   targetRoom.players.push(data.player)
   targetRoom.chat.push({
     username: '',
-    content: `${data.player.name} joined the room`,
+    content: `${playerName} joined the room`,
     className: 'globalMessage',
   })
   socket.join(roomName)
