@@ -67,7 +67,7 @@ const onClickBoard = (rooms, data, io) => {
     io.to(targetRoom.name).emit('gameStateUpdate', targetRoom.gameState)
     const globalWon = util.checkIfSquareWon(targetRoom.gameState)
     if (globalWon) {
-      util.onWinGame(targetRoom, data.player.id, io)
+      util.onWinGame(targetRoom, data.player, io)
       return
     }
   }

@@ -62,7 +62,7 @@ const onWinGame = (targetRoom, player, io) => {
   io.to(targetName).emit('chatUpdate', targetRoom.chat)
   io.to(targetName).emit('turnUpdate', '-')
   io.to(targetName).emit('playableUpdate', [])
-  firestoreFn.addWinToUser(player)
+  firestoreFn.addWinToUser(player.id)
 }
 
 const checkIfSquareWon = (square) => {
