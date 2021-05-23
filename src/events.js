@@ -52,7 +52,7 @@ const onClickBoard = (rooms, data, io) => {
   if (!targetRoom) return
   targetRoom.turn = targetRoom.turn === 'X' ? 'O' : 'X'
   targetRoom.round++
-  targetRoom.board[data.coords[0]][data.coords[1]] = data.player
+  targetRoom.board[data.coords[0]][data.coords[1]] = data.player.type
   targetRoom.playable = util.getArrayPlayable(data.coords[0], data.coords[1])
   const wonSquare = util.checkIfSomethingWon(
     targetRoom.board,
@@ -67,18 +67,7 @@ const onClickBoard = (rooms, data, io) => {
     io.to(targetRoom.name).emit('gameStateUpdate', targetRoom.gameState)
     const globalWon = util.checkIfSquareWon(targetRoom.gameState)
     if (globalWon) {
-      targetRoom.chat.push({
-        username: '',
-        content: `${globalWon} won the game !`,
-        className: 'globalMessage',
-      })
-      io.to(targetName).emit('currentBoard', {
-        board: targetRoom.board,
-        lastPlayed: room.lastPlayed,
-      })
-      io.to(targetName).emit('chatUpdate', targetRoom.chat)
-      io.to(targetName).emit('turnUpdate', '-')
-      io.to(targetName).emit('playableUpdate', [])
+      util.onWinGame(targetRoom, data.player, io)
       return
     }
   }

@@ -65,7 +65,7 @@ const removeUserFromRoom = (room, user) =>
  ** uid is the uid to find in firestore
  */
 
-const getUsernameFromUid = async (uid, socket) =>
+const getUsernameFromUid = async (uid) =>
   db
     .collection('users')
     .doc(uid)
@@ -79,7 +79,35 @@ const getUsernameFromUid = async (uid, socket) =>
       return undefined
     })
 
+/* addWinToUser()
+ ** increments the field "wins"
+ ** uid is the uid of the player that we need to increment
+ */
+
+const addWinToUser = (uid) => {
+  db.collection('users')
+    .doc(uid)
+    .update({
+      wins: admin.firestore.FieldValue.increment(1),
+    })
+}
+
+/* addLossToUser()
+ ** increments the field "loss"
+ ** uid is the uid of the player that we need to increment
+ */
+
+const addLossToUser = (uid) => {
+  db.collection('users')
+    .doc(uid)
+    .update({
+      loss: admin.firestore.FieldValue.increment(1),
+    })
+}
+
 module.exports = {
+  addWinToUser,
+  addLossToUser,
   addUserToRoom,
   createRoom,
   removeUserFromRoom,

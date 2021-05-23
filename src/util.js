@@ -1,3 +1,5 @@
+const firestoreFn = require('./firestoreFunctions')
+
 const getArrayPlayable = (line, square) => {
   const bLine = line % 3
   const bSquare = square % 3
@@ -43,6 +45,22 @@ const addFreshRoom = (rooms, roomName) => {
 
 const findRoomWithName = (name, rooms) => {
   return rooms[rooms.findIndex((room) => room.name === name)]
+}
+
+const onWinGame = (targetRoom, player, io) => {
+  targetRoom.chat.push({
+    username: '',
+    content: `${player.name} won the game !`,
+    className: 'globalMessage',
+  })
+  io.to(targetName).emit('currentBoard', {
+    board: targetRoom.board,
+    lastPlayed: targetRoom.lastPlayed,
+  })
+  io.to(targetName).emit('chatUpdate', targetRoom.chat)
+  io.to(targetName).emit('turnUpdate', '-')
+  io.to(targetName).emit('playableUpdate', [])
+  firestoreFn.addWinToUser(player)
 }
 
 const checkIfSquareWon = (square) => {
@@ -99,6 +117,7 @@ const checkIfSomethingWon = (grid, gameState) => {
 }
 
 module.exports = {
+  onWinGame,
   addFreshRoom,
   findRoomWithName,
   checkIfSomethingWon,
