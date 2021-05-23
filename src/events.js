@@ -17,7 +17,7 @@ const onPlayerJoinRoom = async (data, socket, rooms, clients, io) => {
   const roomName = targetRoom.name
   socket.data = { room: data.room, user: data.player.id }
   firestoreFn.addUserToRoom(data.room, data.player.id)
-  targetRoom.players.push(data.player)
+  targetRoom.players.push({ id: data.player.id, name: playerName })
   targetRoom.chat.push({
     username: '',
     content: `${playerName} joined the room`,
