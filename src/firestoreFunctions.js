@@ -33,6 +33,13 @@ const createRoom = (room, owner) => {
   })
 }
 
+/* removeUserFromRoom()
+ ** removes a user from room in firestore
+ ** deletes the room if no player remaining
+ ** room is a string, name of the room to remove from
+ ** user is the uid of the user to remove from room
+ */
+
 const removeUserFromRoom = (room, user) =>
   db
     .collection('rooms')
@@ -52,8 +59,23 @@ const removeUserFromRoom = (room, user) =>
         })
     })
 
+/* getUsernameFromUid()
+ ** returns the username of a player from their Uid
+ ** uid is the uid to find in firestore
+ */
+
+const getUsernameFromUid = (uid) =>
+  db
+    .collection('users')
+    .doc(uid)
+    .get()
+    .then((data) => {
+      console.log(data)
+    })
+
 module.exports = {
   addUserToRoom,
   createRoom,
   removeUserFromRoom,
+  getUsernameFromUid,
 }

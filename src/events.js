@@ -9,6 +9,8 @@ const onPlayerJoinRoom = (data, socket, rooms, clients, io) => {
     targetRoom = util.findRoomWithName(data.room, rooms)
   } else targetRoom.numPlayers++
 
+  firestoreFn.getUsernameFromUid(data.player.id)
+
   const roomName = targetRoom.name
   socket.data = { room: data.room, user: data.player.id }
   firestoreFn.addUserToRoom(data.room, data.player.id)
