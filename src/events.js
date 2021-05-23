@@ -17,7 +17,10 @@ const onPlayerJoinRoom = async (data, socket, rooms, clients, io) => {
   socket.emit('getName', playerName)
 
   const roomName = targetRoom.name
-  socket.data = { room: data.room, user: data.player.id }
+  socket.data = {
+    room: data.room,
+    user: { id: data.player.id, name: playerName },
+  }
   firestoreFn.addUserToRoom(data.room, data.player.id)
   targetRoom.players.push({ id: data.player.id, name: playerName })
   targetRoom.chat.push({
@@ -91,7 +94,7 @@ const onDisconnect = (data, rooms, clients, io) => {
   const roomName = data.room
   const client = data.user
 
-  console.log(`${client} left the room ${roomName}`)
+  console.log(`${client.username} left the room ${roomName}`)
   const room = util.findRoomWithName(roomName, rooms)
   if (!room) return
 
@@ -99,7 +102,7 @@ const onDisconnect = (data, rooms, clients, io) => {
 
   room.chat.push({
     username: '',
-    content: `${client.name} left the room`,
+    content: `${client.username} left the room`,
     className: 'globalMessage',
   })
   room.numPlayers--
