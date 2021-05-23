@@ -29,6 +29,7 @@ const addUserToRoom = (room, user) => {
 const createRoom = (room, owner) => {
   db.collection('rooms').doc(room).set({
     owner: owner,
+    name: room,
     players: [],
   })
 }
