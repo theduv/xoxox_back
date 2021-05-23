@@ -48,6 +48,8 @@ const findRoomWithName = (name, rooms) => {
 }
 
 const onWinGame = (targetRoom, player, io) => {
+  const targetName = targetRoom.name
+
   targetRoom.chat.push({
     username: '',
     content: `${player.name} won the game !`,
