@@ -70,7 +70,7 @@ const getUsernameFromUid = (uid) =>
     .doc(uid)
     .get()
     .then((data) => {
-      console.log(data)
+      console.log(data.data())
     })
     .catch((e) => {
       console.log(e)
