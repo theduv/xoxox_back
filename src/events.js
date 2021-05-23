@@ -94,7 +94,7 @@ const onDisconnect = (data, rooms, clients, io) => {
   const roomName = data.room
   const client = data.user
 
-  console.log(`${client.username} left the room ${roomName}`)
+  console.log(`${client.name} left the room ${roomName}`)
   const room = util.findRoomWithName(roomName, rooms)
   if (!room) return
 
@@ -102,7 +102,7 @@ const onDisconnect = (data, rooms, clients, io) => {
 
   room.chat.push({
     username: '',
-    content: `${client.username} left the room`,
+    content: `${client.name} left the room`,
     className: 'globalMessage',
   })
   room.numPlayers--
