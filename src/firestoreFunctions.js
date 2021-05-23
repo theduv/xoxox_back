@@ -71,6 +71,7 @@ const getUsernameFromUid = (uid, socket) =>
     .get()
     .then((data) => {
       const username = data.data() ? data.data().username : 'anon'
+      console.log(username)
       socket.emit('getName', username)
     })
     .catch((e) => {
