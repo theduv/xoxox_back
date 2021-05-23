@@ -64,13 +64,14 @@ const removeUserFromRoom = (room, user) =>
  ** uid is the uid to find in firestore
  */
 
-const getUsernameFromUid = (uid) =>
+const getUsernameFromUid = (uid, socket) =>
   db
     .collection('users')
     .doc(uid)
     .get()
     .then((data) => {
-      console.log(data.data())
+      const username = data.data() ? data.data().username : 'anon'
+      socket.emit('getName', username)
     })
     .catch((e) => {
       console.log(e)
