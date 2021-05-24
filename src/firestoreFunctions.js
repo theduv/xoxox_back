@@ -98,6 +98,7 @@ const addWinToUser = (uid) => {
  */
 
 const addLossToUser = (uid) => {
+  console.log('loooooser ')
   db.collection('users')
     .doc(uid)
     .update({

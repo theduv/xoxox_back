@@ -71,6 +71,7 @@ const onWinGame = (targetRoom, winner, loser, io) => {
   io.to(targetName).emit('turnUpdate', '-')
   io.to(targetName).emit('playableUpdate', [])
   if (!isAnon(winner.id)) firestoreFn.addWinToUser(winner.id)
+  console.log(loser)
   if (!isAnon(loser.id)) firestoreFn.addLossToUser(loser.id)
 }
 
