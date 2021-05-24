@@ -48,7 +48,7 @@ const findRoomWithName = (name, rooms) => {
 }
 
 const getLoser = (players, winner) => {
-  return winner === players[0].id ? players[0] : players[1]
+  return winner === players[0].id ? players[1] : players[0]
 }
 
 const isAnon = (uid) => {
