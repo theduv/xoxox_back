@@ -49,15 +49,6 @@ const onPlayerJoinRoom = async (data, socket, rooms, clients, io) => {
 const onClickBoard = (rooms, data, io) => {
   const targetRoom = util.findRoomWithName(data.room, rooms)
 
-  // qwdqwdqwdwqd
-
-  const loser = util.getLoser(data.player.id, [
-    targetRoom.players[0],
-    targetRoom.players[1],
-  ])
-  console.log(`loser: ${loser.id} ||`)
-
-  // qwdqwdqwd
   if (!targetRoom) return
   targetRoom.turn = targetRoom.turn === 'X' ? 'O' : 'X'
   targetRoom.round++
@@ -76,11 +67,10 @@ const onClickBoard = (rooms, data, io) => {
     io.to(targetRoom.name).emit('gameStateUpdate', targetRoom.gameState)
     const globalWon = util.checkIfSquareWon(targetRoom.gameState)
     if (globalWon) {
-      const loser = util.getLoser(data.player.id, [
-        targetRoom.players[0],
-        targetRoom.players[1],
-      ])
-      console.log(`loser: ${loser.id} ||`)
+      const loser = util.getLoser(
+        [targetRoom.players[0], targetRoom.players[1]],
+        data.player.id
+      )
       util.onWinGame(targetRoom, data.player, loser, io)
       return
     }
