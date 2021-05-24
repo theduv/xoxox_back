@@ -48,6 +48,7 @@ const findRoomWithName = (name, rooms) => {
 }
 
 const getLoser = (players, winner) => {
+  console.log(players, winner)
   return winner === players[0].id ? players[0] : players[1]
 }
 

@@ -49,6 +49,15 @@ const onPlayerJoinRoom = async (data, socket, rooms, clients, io) => {
 const onClickBoard = (rooms, data, io) => {
   const targetRoom = util.findRoomWithName(data.room, rooms)
 
+  // qwdqwdqwdwqd
+
+  const loser = util.getLoser(data.player.id, [
+    targetRoom.players[0],
+    targetRoom.players[1],
+  ])
+  console.log(`loser: ${loser.id} ||`)
+
+  // qwdqwdqwd
   if (!targetRoom) return
   targetRoom.turn = targetRoom.turn === 'X' ? 'O' : 'X'
   targetRoom.round++
