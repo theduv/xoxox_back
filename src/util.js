@@ -51,6 +51,10 @@ const getLoser = (players, winner) => {
   return winner === players[0].id ? players[0] : players[1]
 }
 
+const isAnon = (uid) => {
+  return uid.includes('-')
+}
+
 const onWinGame = (targetRoom, winner, loser, io) => {
   const targetName = targetRoom.name
 
@@ -66,8 +70,8 @@ const onWinGame = (targetRoom, winner, loser, io) => {
   io.to(targetName).emit('chatUpdate', targetRoom.chat)
   io.to(targetName).emit('turnUpdate', '-')
   io.to(targetName).emit('playableUpdate', [])
-  firestoreFn.addWinToUser(winner.id)
-  firestoreFn.addLossToUser(loser.id)
+  if (!isAnon(winner.id)) firestoreFn.addWinToUser(winner.id)
+  if (!isAnon(loser.id)) firestoreFn.addLossToUser(loser.id)
 }
 
 const checkIfSquareWon = (square) => {
@@ -124,6 +128,7 @@ const checkIfSomethingWon = (grid, gameState) => {
 }
 
 module.exports = {
+  isAnon,
   getLoser,
   onWinGame,
   addFreshRoom,
