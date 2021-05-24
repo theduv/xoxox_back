@@ -49,6 +49,7 @@ const onPlayerJoinRoom = async (data, socket, rooms, clients, io) => {
 const onClickBoard = (rooms, data, io) => {
   const targetRoom = util.findRoomWithName(data.room, rooms)
 
+  console.log(targetRoom)
   if (!targetRoom) return
   targetRoom.turn = targetRoom.turn === 'X' ? 'O' : 'X'
   targetRoom.round++
