@@ -68,7 +68,10 @@ const onClickBoard = (rooms, data, io) => {
     io.to(targetRoom.name).emit('gameStateUpdate', targetRoom.gameState)
     const globalWon = util.checkIfSquareWon(targetRoom.gameState)
     if (globalWon) {
-      const loser = util.getLoser(data.player.id, [targetRoom.players[0], targetRoom.players[1])
+      const loser = util.getLoser(data.player.id, [
+        targetRoom.players[0],
+        targetRoom.players[1],
+      ])
       util.onWinGame(targetRoom, data.player, loser, io)
       return
     }
