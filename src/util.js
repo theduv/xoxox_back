@@ -47,12 +47,16 @@ const findRoomWithName = (name, rooms) => {
   return rooms[rooms.findIndex((room) => room.name === name)]
 }
 
-const onWinGame = (targetRoom, player, io) => {
+const getLoser = (players, winner) => {
+  return winner === players[0].id ? players[0] : players[1]
+}
+
+const onWinGame = (targetRoom, winner, loser io) => {
   const targetName = targetRoom.name
 
   targetRoom.chat.push({
     username: '',
-    content: `${player.name} won the game !`,
+    content: `${winner.name} won the game !`,
     className: 'globalMessage',
   })
   io.to(targetName).emit('currentBoard', {
@@ -62,7 +66,8 @@ const onWinGame = (targetRoom, player, io) => {
   io.to(targetName).emit('chatUpdate', targetRoom.chat)
   io.to(targetName).emit('turnUpdate', '-')
   io.to(targetName).emit('playableUpdate', [])
-  firestoreFn.addWinToUser(player.id)
+  firestoreFn.addWinToUser(winner.id)
+  firestoreFn.addLossToUser(loser.id)
 }
 
 const checkIfSquareWon = (square) => {
@@ -119,6 +124,7 @@ const checkIfSomethingWon = (grid, gameState) => {
 }
 
 module.exports = {
+  getLoser,
   onWinGame,
   addFreshRoom,
   findRoomWithName,
