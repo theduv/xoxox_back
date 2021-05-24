@@ -71,7 +71,7 @@ const onClickBoard = (rooms, data, io) => {
         targetRoom.players[0],
         targetRoom.players[1],
       ])
-      console.log(loser)
+      console.log(`loser: loser.id ||`)
       util.onWinGame(targetRoom, data.player, loser, io)
       return
     }
