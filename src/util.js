@@ -51,7 +51,7 @@ const getLoser = (players, winner) => {
   return winner === players[0].id ? players[0] : players[1]
 }
 
-const onWinGame = (targetRoom, winner, loser io) => {
+const onWinGame = (targetRoom, winner, loser, io) => {
   const targetName = targetRoom.name
 
   targetRoom.chat.push({
