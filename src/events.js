@@ -99,10 +99,10 @@ const onDisconnect = (data, rooms, clients, io) => {
     className: 'globalMessage',
   })
   room.numPlayers--
-  // if (room.numPlayers === 0) {
-  //   rooms.splice(util.findIndexRoom(roomName, rooms), 1)
-  //   return
-  // }
+  if (room.numPlayers === 0) {
+    rooms.splice(util.findIndexRoom(roomName, rooms), 1)
+    return
+  }
 
   io.to(roomName).emit('chatUpdate', room.chat)
   io.to(roomName).emit('numPlayers', room.numPlayers)
