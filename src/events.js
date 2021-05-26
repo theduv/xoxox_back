@@ -29,6 +29,7 @@ const onPlayerJoinRoom = async (data, socket, rooms, clients, io) => {
     className: 'globalMessage',
   })
   socket.join(roomName)
+  console.log(`${playerName} joined the room ${data.room}`)
   io.to(roomName).emit('chatUpdate', targetRoom.chat)
   io.to(roomName).emit('currentBoard', {
     board: targetRoom.board,
